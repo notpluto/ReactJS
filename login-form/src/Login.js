@@ -42,7 +42,9 @@ export default class Login extends React.Component {
 
 	handleSubmit = (e) => {
 		const {username, password} = this.state;
-		handleLogin(username, password).then(user => alert(`Hello, ${user.firstname}`)).catch(err => alert(err))
+		handleLogin(username, password)
+		.then(user => this.props.showUser(user))
+		.catch(err => alert(err))
 	}
 	handleChange = (e) => {
 		this.setState({[e.target.name]: e.target.value})

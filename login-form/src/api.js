@@ -6,9 +6,10 @@ const user = {
 export function handleLogin(username, password) {
 	return new Promise((resolve, reject) => {
 		if(username=== "dragon" && password==="stone") {
-			resolve(user) 
+			setTimeout(() => 
+				resolve(user), 2000)
 		} else {
-				reject("you don't exist")
+				reject("Make sure you exist")
 			}
 	});
 }
