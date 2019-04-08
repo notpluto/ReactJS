@@ -13,8 +13,8 @@ export default class Header extends React.Component {
 		return (
 			<React.Fragment>
 				<Head>
-				<FontAwesome className= "fab fa-github" size="3x" style={{}}/>
-				<FontAwesome className= "fas fa-cart-arrow-down" size="4x" style={{}}/>
+				<FontAwesome className= "fab fa-github" size="3x" style={{}} name="icon"/>
+				<FontAwesome className= "fas fa-cart-arrow-down" size="4x" style={{}} name="shop-icon"/>
 				</Head>
 			</React.Fragment>
 		)

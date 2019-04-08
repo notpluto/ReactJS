@@ -1,22 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import item1 from './assets/1.jpg';
-import item2 from './assets/2.jpg';
-import item3 from './assets/3.jpg';
-import item4 from './assets/4.jpg';
-import item5 from './assets/5.jpg';
-import item6 from './assets/6.jpg';
-import item7 from './assets/7.jpg';
-import item8 from './assets/8.jpg';
-import item9 from './assets/9.jpg';
-import item10 from './assets/10.jpg';
-import item11 from './assets/11.jpg';
-import item12 from './assets/12.jpg';
-import item13 from './assets/13.jpg';
-import item14 from './assets/14.jpg';
-import item15 from './assets/15.jpg';
-import item16 from './assets/16.jpg';
-
+import { connect } from 'react-redux';
 
 const Wrapper = styled.div `
 	margin: 0 auto;
@@ -24,12 +8,12 @@ const Wrapper = styled.div `
 `
 const ItemCard = styled.div`
 	display: grid;
-	margin-top: 0rem;
+	margin-top: 1rem;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: repeat(4, 1fr);
 	grid-gap: 20px;
+	padding: 10px;
 `
-
 const ItemImage = styled.img`
 	width: 220px;
 	height: 300px;
@@ -47,27 +31,47 @@ const Button = styled.button`
 	cursor: pointer;
 	`
 class Products extends React.Component {
+	state = {
+		shop: [],
+	}
+	componentDidMount = () => {
+		fetch('https://react-shopping-cart-67954.firebaseio.com/products.json')
+		.then(res => res.json())
+		.then(data => {
+			this.props.dispatch({type: "ADD_PRODUCTS", products: data.products})
+		})
+		// .then(({products}) => this.setState({shop: products}))
+	}
 	render() {
 		return (
 			<React.Fragment>
 				<Wrapper>
+					<div className="sort-list">
+						<div>{this.state.shop.length} Product(s) found</div>
+						<div style={{marginRight: "40px"}}>
+							<label>Order by </label>
+							<select id="item-sort">
+			    			<option value="">Select</option>
+			   				<option>Lowest to highest</option>
+			    			<option>Highest to lowest</option>
+			    		</select>
+			    	</div>
+			    </div>
 					<ItemCard>
-						<div className="light"><ItemImage src= {item1} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item3} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item2} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item4} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item5} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item6} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item7} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item8} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"> <ItemImage src= {item9} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item10} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item11} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item12} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item13} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item14} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item15} /> <Button className="addCart"> Add to cart </Button></div>
-						<div className="light"><ItemImage src= {item16} /> <Button className="addCart"> Add to cart </Button></div>
+						{ 
+							this.props.products.map((v, i) => { 
+								return(
+									<div className="light" key={i}>
+									<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
+									<div className="title">${v.title}</div>
+									<hr style={{width: "10%", background: "red"}}/>
+									<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
+									<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
+									<Button className="addCart"> Add to cart </Button>
+									</div>
+								)}
+							)
+						}	
 					</ItemCard>
 				</Wrapper>
 			</React.Fragment>
@@ -75,4 +79,11 @@ class Products extends React.Component {
 	}
 }
 
-export default Products;
+function mapStateToProps (state) {
+	return {
+		products: state.products
+	}
+}
+
+
+export default connect(mapStateToProps)(Products);
