@@ -28,14 +28,17 @@ select {
 	border-radius: 50%;
 	height: 35px;
 	width: 35px;
-	font-size: 0.8rem;
-	background: lightgray;
+	font-size: 0.7rem;
+	background: #ECECEC;
 	cursor: pointer;
 	outline: 0;
+	margin: 10px;
+	/*padding: 10px;*/
 	display: inline-block;
 }
 .size-container {
-	width: 100px;
-	margin: 10px;
+	/*width: 30px;*/
+	/*padding-right: 20px;*/
+	/*display: inline-block;*/
 
 }

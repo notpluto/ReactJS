@@ -31,9 +31,9 @@ const Button = styled.button`
 	cursor: pointer;
 	`
 class Products extends React.Component {
-	state = {
-		shop: [],
-	}
+	// state = {
+	// 	shop: [],
+	// }
 	componentDidMount = () => {
 		fetch('https://react-shopping-cart-67954.firebaseio.com/products.json')
 		.then(res => res.json())
@@ -42,28 +42,54 @@ class Products extends React.Component {
 		})
 		// .then(({products}) => this.setState({shop: products}))
 	}
+
+	handleChange = (e) => {
+		(e.target.value === "ascending") ? this.props.dispatch({type: "LOW_TO_HIGH"}) : this.props.dispatch({type: "HIGH_TO_LOW"})
+	}
+
 	render() {
+		let filterSizes = this.props.sizes.filter(size => size.isClicked === true).map(val => val.size)
+		let filteredProd = this.props.products.filter((product, i) => {
+			return product.availableSizes.some(size => filterSizes.includes(size)) 
+		})
+		// console.log(filterSizes)
+		// console.log(filteredProd)
 		return (
 			<React.Fragment>
 				<Wrapper>
 					<div className="sort-list">
-						<div>{this.state.shop.length} Product(s) found</div>
+						<div>{this.props.products.length} Product(s) found</div>
 						<div style={{marginRight: "40px"}}>
 							<label>Order by </label>
-							<select id="item-sort">
+							<select id="item-sort" onChange={(e) => this.handleChange(e)}>
 			    			<option value="">Select</option>
-			   				<option>Lowest to highest</option>
+			   				<option value="ascending">Lowest to highest</option>
 			    			<option>Highest to lowest</option>
 			    		</select>
 			    	</div>
 			    </div>
 					<ItemCard>
 						{ 
+							(filteredProd.length) ?
+								filteredProd.map((v, i) => { 
+									return(
+										<div className="light" key={i}>
+										<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
+										<div className="title">{v.title}</div>
+										<hr style={{width: "10%", background: "red"}}/>
+										<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
+										<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
+										<Button className="addCart"> Add to cart </Button>
+										</div>
+									)}
+								)
+							:
+
 							this.props.products.map((v, i) => { 
 								return(
 									<div className="light" key={i}>
 									<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
-									<div className="title">${v.title}</div>
+									<div className="title">{v.title}</div>
 									<hr style={{width: "10%", background: "red"}}/>
 									<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
 									<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
@@ -81,7 +107,8 @@ class Products extends React.Component {
 
 function mapStateToProps (state) {
 	return {
-		products: state.products
+		products: state.products,
+		sizes: state.sizes,
 	}
 }
 

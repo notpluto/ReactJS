@@ -42,6 +42,10 @@ class Sizes extends React.Component {
 		})	
 	}
 
+	handleClick = (size) => {
+			this.props.dispatch({type: 'TOGGLE_SIZES', currentSize: size})
+		}
+
 	render(){
 		return(
 			<React.Fragment>
@@ -49,7 +53,7 @@ class Sizes extends React.Component {
 					<SideMain>
 						<div><strong>Sizes:</strong></div><br />
 						{
-							this.props.sizes.map(d => <div className="size-container"><button className="product-size">{d.size}</button></div>)
+							this.props.sizes.map((d, i) => <div key={i} className="size-container"><button onClick={() => this.handleClick(d.size)} className="product-size">{d.size}</button></div>)
 						}
 					</SideMain>
 					<Products />
