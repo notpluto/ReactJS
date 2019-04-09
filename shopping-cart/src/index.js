@@ -6,6 +6,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import {reducer, sizes, sortProducts} from './reducers/redux'
 import {root} from './reducers';
+import './Drawer.css';
 
 const store = createStore(root);
 

@@ -3,6 +3,7 @@ import './App.css';
 import Header from './Header';
 import Sizes from './Sizes';
 import { connect } from 'react-redux'
+import './Drawer.css';
 
 class App extends Component {
   render() {

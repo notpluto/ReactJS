@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
+import React from 'react'; import styled from 'styled-components'; import {
+connect } from 'react-redux';
 
 const Wrapper = styled.div `
 	margin: 0 auto;
@@ -47,6 +46,9 @@ class Products extends React.Component {
 		(e.target.value === "ascending") ? this.props.dispatch({type: "LOW_TO_HIGH"}) : this.props.dispatch({type: "HIGH_TO_LOW"})
 	}
 
+	handleCart = (products) => {
+		this.props.dispatch({type:"ADD_TO_CART", products})
+	}
 	render() {
 		let filterSizes = this.props.sizes.filter(size => size.isClicked === true).map(val => val.size)
 		let filteredProd = this.props.products.filter((product, i) => {
@@ -79,7 +81,7 @@ class Products extends React.Component {
 										<hr style={{width: "10%", background: "red"}}/>
 										<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
 										<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
-										<Button className="addCart"> Add to cart </Button>
+										<Button onClick={()=>this.handleCart(v)} className="addCart"> Add to cart </Button>
 										</div>
 									)}
 								)
@@ -93,7 +95,7 @@ class Products extends React.Component {
 									<hr style={{width: "10%", background: "red"}}/>
 									<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
 									<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
-									<Button className="addCart"> Add to cart </Button>
+									<Button onClick={()=>this.handleCart(v)} className="addCart"> Add to cart </Button>
 									</div>
 								)}
 							)
