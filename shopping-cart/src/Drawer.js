@@ -3,6 +3,10 @@ import FontAwesome from 'react-fontawesome';
 import {connect} from 'react-redux';
 
 class Drawer extends React.Component {
+
+	handleCheckout = () => {
+		alert("Checkout Price: " + this.props.cartItems.reduce(function (acc,obj) { return acc + obj.price;}, 0))
+	}
 	render(){
 		return (
 			<React.Fragment>
@@ -19,7 +23,7 @@ class Drawer extends React.Component {
 										<span className="remove-item">X</span>
 										<div>{item.title}</div>
 										<div style={{color: "#AFAEAE"}}>{item.availableSizes[0]} | {item.style}</div>
-										<div style={{color: "#AFAEAE"}}>Quantity</div>
+										<div style={{color: "#AFAEAE"}}>Quantity{}</div>
 									</div>	
 									<div style={{color: "yellow", fontWeight: "bold"}}>${item.price}</div>
 								</div>
@@ -27,7 +31,7 @@ class Drawer extends React.Component {
 							</React.Fragment>
 						)}
 					</ul>
-					<div className="checkout"><button className="drawer-btn">Checkout</button></div>
+					<div className="checkout"><button className="drawer-btn" onClick={() => this.handleCheckout()}>Checkout</button></div>
 				</div>
 			</React.Fragment>
 			)
