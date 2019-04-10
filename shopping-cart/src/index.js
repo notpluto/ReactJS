@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import {reducer, sizes, sortProducts} from './reducers/redux'
 import {root} from './reducers';
 import './Drawer.css';
+import './Loading.css';
 
 const store = createStore(root);
 

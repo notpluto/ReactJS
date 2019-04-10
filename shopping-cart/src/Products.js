@@ -1,5 +1,6 @@
 import React from 'react'; import styled from 'styled-components'; 
 import {connect } from 'react-redux';
+import Loading from './Loading';
 
 const Wrapper = styled.div `
 	margin: 0 auto;
@@ -30,10 +31,11 @@ const Button = styled.button`
 	cursor: pointer;
 	`
 class Products extends React.Component {
-	// state = {
-	// 	shop: [],
-	// }
+	state = {
+		isLoading: true,
+	}
 	componentDidMount = () => {
+		this.state.isLoading = false
 		fetch('https://react-shopping-cart-67954.firebaseio.com/products.json')
 		.then(res => res.json())
 		.then(data => {
@@ -58,6 +60,7 @@ class Products extends React.Component {
 		// console.log(filteredProd)
 		return (
 			<React.Fragment>
+			{ this.state.isLoading ? <Loading /> : 
 				<Wrapper>
 					<div className="sort-list">
 						<div>{this.props.products.length} Product(s) found</div>
@@ -76,6 +79,7 @@ class Products extends React.Component {
 								filteredProd.map((v, i) => { 
 									return(
 										<div className="light" key={i}>
+										<span>{v.isFreeShipping ? <button className="shipping">Free Shipping</button> : null}</span>
 										<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
 										<div className="title">{v.title}</div>
 										<hr style={{width: "10%", background: "red"}}/>
@@ -86,12 +90,11 @@ class Products extends React.Component {
 									)}
 								)
 							:
-
 							this.props.products.map((v, i) => { 
 								return(
 										<div className="light" key={i}>
 										<span>{v.isFreeShipping ? <button className="shipping">Free Shipping</button> : null}</span>
-										<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
+										<ItemImage style={{marginTop: "10px"}} src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
 										<div className="title">{v.title}</div>
 										<hr style={{width: "10%", background: "red"}}/>
 										<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
@@ -102,7 +105,8 @@ class Products extends React.Component {
 							)
 							}	
 					</ItemCard>
-				</Wrapper>
+				</Wrapper> 
+			}
 			</React.Fragment>
 		)
 	}

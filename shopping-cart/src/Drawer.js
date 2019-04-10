@@ -11,14 +11,12 @@ class Drawer extends React.Component {
 	}
 
 	handleCheckout = () => {
-			// alert("Checkout Price: " + this.props.cartItems.reduce(function (acc,obj) { return console.log(obj.products.quantity);}, 0))
-			console.log(this.props.cartItems.map(item => console.log(item.products.price)))
+		alert("Checkout Price: " + this.props.cartItems.reduce(function (acc,obj) { return (acc += obj.products.price* obj.quantity);}, 0))
+		// console.log(this.props.cartItems.map(item => console.log(item.products.price)))
 	}
-
 	handleCartEvent = () => {
 		this.setState({isCartClosed: true})
 	}
-
 	handleRemove = (sku) => {
 		this.props.dispatch({type: "REMOVE_FROM_CART", id: sku})
 	}
@@ -45,7 +43,7 @@ class Drawer extends React.Component {
 											<div style={{color: "#AFAEAE"}}>{val.products.availableSizes[0]} | {val.products.style}</div>
 											<div style={{color: "#AFAEAE"}}>Quantity: {val.quantity}</div>
 										</div>	
-										<div style={{color: "yellow", fontWeight: "bold"}}>${val.products.price}</div>
+										<div style={{color: "yellow", fontWeight: "bold",}}>${val.products.price}</div>
 									</div>
 									<hr />
 								</React.Fragment>
@@ -53,7 +51,14 @@ class Drawer extends React.Component {
 						})
 					}
 					</ul>
-					<div className="checkout"><button className="drawer-btn" onClick={() => this.handleCheckout()}>Checkout</button></div>
+					
+					<div className="checkout">
+						<div className="subtotal">
+							<div>SUBTOTAL</div>
+							<div className="total">${this.props.cartItems.reduce(function (acc,obj) { return (acc += obj.products.price* obj.quantity);}, 0)}</div>
+						</div>
+						<button className="drawer-btn" onClick={() => this.handleCheckout()}>Checkout</button>
+					</div>
 				</div>
 			</React.Fragment>
 			)

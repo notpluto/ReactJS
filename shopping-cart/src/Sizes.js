@@ -53,7 +53,7 @@ class Sizes extends React.Component {
 					<SideMain>
 						<div><strong>Sizes:</strong></div><br />
 						{
-							this.props.sizes.map((d, i) => <div key={i} className="size-container"><button onClick={() => this.handleClick(d.size)} className="product-size">{d.size}</button></div>)
+							this.props.sizes.map((d, i) => <div key={i} className="size-container"><button className="btn-size" onClick={() => this.handleClick(d.size)} className="product-size">{d.size}</button></div>)
 						}
 					</SideMain>
 					<Products />
@@ -68,6 +68,5 @@ function sizefunc(state) {
 		sizes: state.sizes
 	}
 }
-
 
 export default connect(sizefunc)(Sizes)
