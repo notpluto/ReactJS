@@ -30,13 +30,36 @@ export function sizes(state=[], action) {
 	}
 }
 
+function addQuantity(state, products) {
+	let isQuant = true;
+	state.forEach(pro  => { 
+		if(pro.products.id === products.id) {
+			pro.quantity = pro.quantity + 1; 
+			isQuant = false;
+		}
+	});
+	if (isQuant) {
+		let quantObj = {
+			products: products,
+			quantity: 1,	
+		}
+		state.push(quantObj)
+	}	
+	return [...state]
+}
+
+
 export function cart(state=[], action) {
 	switch(action.type) {
 		case "ADD_TO_CART":
-			return [...state, action.products]
+			return addQuantity(state, action.products)
+		case "REMOVE_FROM_CART":
+			// console.log(action.id)
+			return [...state].filter(v => action.id !== v.products.id)
 		default:
 			return state;
 		}
-
 	}
+
+
 

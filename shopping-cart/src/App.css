@@ -40,5 +40,15 @@ select {
 	/*width: 30px;*/
 	/*padding-right: 20px;*/
 	/*display: inline-block;*/
-
+}
+.fa-github {
+	padding: 10px;
+}
+.shipping{
+	background: black;
+	font-size: 9px;
+	width: 6rem;
+	color: #fff;
+	padding: 6px 10px;
+	margin-bottom: 4px;
 }

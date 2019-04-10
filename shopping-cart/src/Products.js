@@ -1,5 +1,5 @@
-import React from 'react'; import styled from 'styled-components'; import {
-connect } from 'react-redux';
+import React from 'react'; import styled from 'styled-components'; 
+import {connect } from 'react-redux';
 
 const Wrapper = styled.div `
 	margin: 0 auto;
@@ -89,17 +89,18 @@ class Products extends React.Component {
 
 							this.props.products.map((v, i) => { 
 								return(
-									<div className="light" key={i}>
-									<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
-									<div className="title">{v.title}</div>
-									<hr style={{width: "10%", background: "red"}}/>
-									<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
-									<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
-									<Button onClick={()=>this.handleCart(v)} className="addCart"> Add to cart </Button>
-									</div>
+										<div className="light" key={i}>
+										<span>{v.isFreeShipping ? <button className="shipping">Free Shipping</button> : null}</span>
+										<ItemImage src= {`https://raw.githubusercontent.com/jeffersonRibeiro/react-shopping-cart/master/src/static/products/${v.sku}_1.jpg`} /> 
+										<div className="title">{v.title}</div>
+										<hr style={{width: "10%", background: "red"}}/>
+										<div style={{textAlign:"center"}}>${(v.price).toFixed(2)}</div>
+										<div style={{color: "#9c9b9b", fontSize: "14px", fontWeight: "bold", textAlign: "center", padding: "10px"}}>or ${v.installments} x {(v.price/v.installments).toFixed(2)}</div>
+										<Button onClick={()=>this.handleCart(v)} className="addCart"> Add to cart </Button>
+										</div>			
 								)}
 							)
-						}	
+							}	
 					</ItemCard>
 				</Wrapper>
 			</React.Fragment>
